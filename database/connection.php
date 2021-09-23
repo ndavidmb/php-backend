@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 function conectar() {
 	$host = "localhost";
@@ -6,9 +6,9 @@ function conectar() {
 	$password = "";
 	$database = "hospital";
 	$conn = mysqli_connect(
-		$host, 
-		$user, 
-		$password, 
+		$host,
+		$user,
+		$password,
 		$database
 	) or die("Error al conectar".mysqli_error($conn));
 
