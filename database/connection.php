@@ -1,7 +1,7 @@
 <?php
 
 function conectar() {
-	$host = "127.0.0.1";
+	$host = "localhost";//"127.0.0.1";
 	$user = "root";
 	$password = "";
 	$database = "hospital";
