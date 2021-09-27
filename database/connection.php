@@ -1,7 +1,7 @@
 <?php
 
 function conectar() {
-	$host = "localhost";//"127.0.0.1";
+	$host = "127.0.0.1";
 	$user = "root";
 	$password = "";
 	$database = "hospital";
@@ -11,9 +11,7 @@ function conectar() {
 		$password,
 		$database
 	) or die("Error al conectar".mysqli_error($conn));
-
 	return $conn;
 }
-
 
 ?>
