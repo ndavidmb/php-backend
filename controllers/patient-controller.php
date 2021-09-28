@@ -1,13 +1,15 @@
 <?php
 include('./models/patient.php');
+include_once('./controllers/base-controller.php');
 
-class PatientController {
-  public function __construct($method) {
-    $this->execute($method);
+class PatientController extends BaseController {
+  public function __construct($method, $param = null) {
+    //parent::__construct(method: $method,param: $param, protected_routes: ['POST']);
+    parent::__construct(method: $method,param: $param);
   }
 
-  function execute($method) {
-    switch ($method) {
+  function init() {
+    switch ($this->method) {
       case 'POST':
         $this->createPatient();
         break;

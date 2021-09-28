@@ -2,8 +2,14 @@
 include_once("./models/generic-model.php");
 
 class User extends GenericModel {
+  public $token = null;
 
-  public function __construct($email, $username, $password, $user_id = 0) {
+  public function __construct(
+    string $email,
+    string $password, 
+    ?string $username = null, 
+    ?int $user_id = null
+  ) {
     parent::__construct("user");
     $this->user_id = $user_id;
     $this->email = $email;
@@ -26,19 +32,37 @@ class User extends GenericModel {
               WHERE (email='$this->email' OR username='$this->username') 
               AND password='$this->password'";
     $res = $this->exec($query);
-    $row = mysqli_fetch_array($res, MYSQLI_ASSOC);
-    return $row;
+    if(mysqli_num_rows($res) != 0) {
+      $row = mysqli_fetch_array($res, MYSQLI_ASSOC);
+      return $row;
+    }
+    return null;
   }
 
-  function findUser() {
-    $query = "SELECT * FROM $this->table_name WHERE email='$this->email' AND password='this->password'";
-      $res = mysqli_query($this->link, $query);
-      if(!$res) {
-        header('HTTP/1.1 400 Bad Request');
-        echo json_encode(array('error' => 'Error al crear el usuario'));
-     }
-     return $res;
+  function findUserByEmail() {
+    $query = "SELECT * FROM $this->table_name WHERE email='$this->email'";
+    $res = $this->exec($query);
+    return $res;
   }
+
+  function changePassword() {
+    $query = "UPDATE $this->table_name SET password='$this->password' WHERE email='$this->email'";
+    $res = $this->exec($query);
+    return $res;
+  }
+
+  function generateToken() {
+    $query = "UPDATE $this->table_name SET token='$this->token' WHERE user_id=$this->user_id";
+    $res = $this->exec($query);
+    return $res;
+  }
+
+  function validateToken($token) {
+    $query = "SELECT * FROM $this->table_name WHERE token='$token'";
+    $res = $this->exec($query);
+    return $res;
+  }
+
 }
 
 ?>

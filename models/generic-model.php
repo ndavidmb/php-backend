@@ -13,7 +13,7 @@ class GenericModel {
     $res = mysqli_query($this->link, $query);
     if(!$res) {
       header('HTTP/1.1 400 Bad Request');
-      echo json_encode(array('error' => mysqli_error($this->link)));
+      echo json_encode(['error' => mysqli_error($this->link), 'status' => 'Error in database']);
       exit();
     }
     return $res;
