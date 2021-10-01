@@ -16,6 +16,9 @@ function main() {
       $user_controller = new UserController($requestMethod, $arr[2]);
       $user_controller->init();
       break;
+    case 'doctor':
+      //$doctor = new Doctor();
+      break;
     default:
       response(['error' => 'Method not found'], 404);
       break;

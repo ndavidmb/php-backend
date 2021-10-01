@@ -5,32 +5,37 @@ class User extends GenericModel {
   public $token = null;
 
   public function __construct(
-    string $email,
-    string $password, 
-    ?string $username = null, 
-    ?int $user_id = null
+    string $correo,
+    string $contra, 
+    ?string $nomUsuario = null, 
+    ?int $idUsuario = null
   ) {
-    parent::__construct("user");
-    $this->user_id = $user_id;
-    $this->email = $email;
-    $this->username = $username;
-    $this->password = $password;
+    parent::__construct("usuario");
+    $this->idUsuario = $idUsuario;
+    $this->correo = $correo;
+    $this->nomUsuario = $nomUsuario;
+    $this->contra = $contra;
   }
 
+  //CRUD 
   function createUser() {
-    $query = "INSERT INTO $this->table_name(email,username,password)
-    VALUES ('$this->email','$this->username','$this->password')";
-    $res = mysqli_query($this->link, $query);
-    if(!$res) {
-      response(['error' => 'Error al crear el usuario'], 400);
-    }
+    $query = "INSERT INTO $this->table_name(correo,nomUsuario,contra)
+    VALUES ('$this->correo','$this->nomUsuario','$this->contra')";
+    $res = $this->exec($query);
     return $res;
+  }
+
+  function updateUser() {
+    $query = "UPDATE $this->table_name(nomUsuario)
+      SET NomUsuario = '$this->nomUsuario'
+      WHERE IdUsuario = $this->idUsuario";
+    $this->exec($query);
   }
 
   function login() {
     $query = "SELECT * FROM $this->table_name 
-              WHERE (email='$this->email' OR username='$this->username') 
-              AND password='$this->password'";
+              WHERE (correo='$this->correo' OR nomUsuario='$this->nomUsuario') 
+              AND contra='$this->contra'";
     $res = $this->exec($query);
     if(mysqli_num_rows($res) != 0) {
       $row = mysqli_fetch_array($res, MYSQLI_ASSOC);
@@ -39,20 +44,17 @@ class User extends GenericModel {
     return null;
   }
 
-  function findUserByEmail() {
-    $query = "SELECT * FROM $this->table_name WHERE email='$this->email'";
-    $res = $this->exec($query);
-    return $res;
-  }
-
   function changePassword() {
-    $query = "UPDATE $this->table_name SET password='$this->password' WHERE email='$this->email'";
+    $query = "UPDATE $this->table_name
+      SET contra='$this->contra'
+      WHERE correo='$this->correo'";
     $res = $this->exec($query);
     return $res;
   }
 
   function generateToken() {
-    $query = "UPDATE $this->table_name SET token='$this->token' WHERE user_id=$this->user_id";
+    $query = "UPDATE $this->table_name 
+      SET token='$this->token' WHERE idUsuario=$this->idUsuario";
     $res = $this->exec($query);
     return $res;
   }

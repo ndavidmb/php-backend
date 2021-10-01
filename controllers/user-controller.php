@@ -28,28 +28,24 @@ class UserController extends BaseController{
       'username' => $username
     ] = request();
 
-    $user = new User(email: $email, username: $username, password: $password);
+    $user = new User(correo: $email, nomUsuario: $username, contra: $password);
     $result = $user->createUser();
     print_r($result);
     exit();
   }
 
-  function getAllUser() {
-
-  }
-
   function login() {
     [
-      'email'=> $email, 
+      'email'=> $email,
       'password'=> $password
     ] = request();
-    $user = new User(email: $email, password: $password);
+    $user = new User(correo: $email, contra: $password);
     $result = $user->login();
     if(isset($result)) {
-      $user->user_id = $result['user_id'];
-      $token = base64_encode($user->email) 
+      $user->nomUsuario = $result['IdUsuario'];
+      $token = base64_encode($user->correo) 
         .base64_encode(' ') 
-        .base64_encode($user->password)
+        .base64_encode($user->contra)
         .base64_encode(' ') 
         .base64_encode(date("m/d/y"));
       $user->token = $token;
@@ -70,11 +66,10 @@ class UserController extends BaseController{
       'email' => $email, 
       'newPassword' => $newPassword
     ] = request();
-    $user = new User(email: $email, password: $newPassword);
+    $user = new User(correo: $email, contra: $newPassword);
     $res = $user->findUserByEmail();
     echo $res;
   }
-
 
 }
 
