@@ -16,17 +16,17 @@ class Doctor extends GenericModel {
   }
 
   function createDoctor() {
-    $query = "INSERT INTO $this->table_name(NomDoctor, ApellDoctor, IdEspecial)
+    $query = "INSERT INTO $this->table_name(NomDoctor, ApellDoctor, IdEspecialidad)
       VALUES ('$this->nomDoctor', '$this->apellDoctor', $this->idEspecialidad)";
     $res = $this->exec($query);
     return $res;
   }
 
   function updateDoctor() {
-    $query = "UPDATE $this->table_name(NomDoctor, ApellDoctor, IdEspecialidad)
-      SET NomDoctor = '$this->nomDoctor',
-          ApellDoctor = '$this->apellDoctor',
-          IdEspecialidad = $this->idEspecialidad
+    $query = "UPDATE `$this->table_name`
+      SET `NomDoctor` = '$this->nomDoctor',
+          `ApellDoctor` = '$this->apellDoctor',
+          `IdEspecialidad` = $this->idEspecialidad
       WHERE IdDoctor=$this->idDoctor";
     $res = $this->exec($query);
     return $res;
@@ -48,6 +48,16 @@ class Doctor extends GenericModel {
       return $rows;
     }
     return "No se encontro ningún regitro";
+  }
+
+  function selectOne() {
+    $query = "SELECT * FROM $this->table_name WHERE IdDoctor=$this->idDoctor";
+    $res = $this->exec($query);
+        if(mysqli_num_rows($res) != 0) {
+      $row = mysqli_fetch_array($res, MYSQLI_ASSOC);
+      return $row;
+    }
+    return null;
   }
 }
 ?>

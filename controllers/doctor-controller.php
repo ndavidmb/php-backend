@@ -1,11 +1,15 @@
 <?php
-include('./models/doctor');
 include_once('./controllers/base-controller.php');
+include_once('./models/doctor.php');
 
 class DoctorController extends BaseController {
 
   public function __construct($method, $param = null) {
-    parent::__construct(method: $method,param: $param);
+    parent::__construct(
+      method: $method,
+      param: $param,
+      requiereParam: ['PUT', 'DELETE']
+    );
   }
 
   public function init() {
@@ -20,6 +24,7 @@ class DoctorController extends BaseController {
         $this->updateDoctor();
         break;
       case 'DELETE':
+        $this->deleteDoctor();
         break;
       default:
         response(['error' => 'Method not found'], 404);
@@ -29,13 +34,13 @@ class DoctorController extends BaseController {
 
   private function createDoctor() {
     [
-      'doctorName' => $nomDoctor,
-      'doctorLastname' => $apellDoctor,
-      'idSpeciality' => $idEspecialidad,
+      'nomDoctor' => $nomDoctor,
+      'apellDoctor' => $apellDoctor,
+      'idEspecialidad' => $idEspecialidad,
     ] = request();
 
     $doctor = new Doctor(
-      nomDoctor: $nomDoctor, 
+      nomDoctor: $nomDoctor,
       apellDoctor: $apellDoctor,
       idEspecialidad: $idEspecialidad
     );
@@ -43,8 +48,8 @@ class DoctorController extends BaseController {
     if($res == 1) {
       response([
         'status' => 'Se ha creado correctamente el doctor',
-        'error' => False], 201
-      );
+        'error' => False
+      ], 201);
       exit();
     }
     response([
@@ -55,9 +60,9 @@ class DoctorController extends BaseController {
 
   private function updateDoctor() {
     [
-      'doctorName' => $nomDoctor,
-      'doctorLastname' => $apellDoctor,
-      'idSpeciality' => $idEspecialidad,
+      'nomDoctor' => $nomDoctor,
+      'apellDoctor' => $apellDoctor,
+      'idEspecialidad' => $idEspecialidad,
     ] = request();
     $doctor = new Doctor(
       idDoctor: $this->param,
@@ -89,8 +94,29 @@ class DoctorController extends BaseController {
       ], 200);
       exit();
     }
-    print_r($res);
+
+    response([
+      'data' => mapped($res),
+      'status' => 'Ok',
+      'error' => False
+    ],200);
   }
+
+  private function deleteDoctor() {
+    $doctor = new Doctor(idDoctor: $this->param);
+    $exist = $doctor->selectOne();
+    if(!isset($exist)) {
+      response([
+        "error" => True,
+        "status" => "No se ha encontrado ningún registro con el id: ".$this->param
+      ], 202);
+      exit();
+    }
+    $res = $doctor->deleteDoctor();
+    echo $res;
+    response(["error" => False, "status" => "Se ha eliminado correctamente el doctor"], 200);
+  }
+
 
 }
 ?>

@@ -1,5 +1,6 @@
 <?php
 include('./controllers/patient-controller.php');
+include('./controllers/doctor-controller.php');
 include('./controllers/user-controller.php');
 
 function main() {
@@ -17,7 +18,8 @@ function main() {
       $user_controller->init();
       break;
     case 'doctor':
-      //$doctor = new Doctor();
+      $doctor = new DoctorController($requestMethod, $arr[2]);
+      $doctor->init();
       break;
     default:
       response(['error' => 'Method not found'], 404);

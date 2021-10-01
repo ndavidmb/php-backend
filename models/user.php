@@ -26,8 +26,9 @@ class User extends GenericModel {
   }
 
   function updateUser() {
-    $query = "UPDATE $this->table_name(nomUsuario)
-      SET NomUsuario = '$this->nomUsuario'
+    $query = "UPDATE $this->table_name
+      SET NomUsuario='$this->nomUsuario',
+      SET correo='$this->correo'
       WHERE IdUsuario = $this->idUsuario";
     $res = $this->exec($query);
     return $res;
