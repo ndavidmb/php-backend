@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-09-2021 a las 07:58:22
+-- Tiempo de generación: 01-10-2021 a las 05:22:31
 -- Versión del servidor: 10.4.14-MariaDB
 -- Versión de PHP: 7.4.10
 
@@ -17,12 +17,11 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
-CREATE DATABASE hospital;
-
-USE hospital;
-
+--
 -- Base de datos: `hospital`
 --
+CREATE DATABASE IF NOT EXISTS `hospital` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `hospital`;
 
 -- --------------------------------------------------------
 
@@ -71,6 +70,17 @@ CREATE TABLE `paciente` (
   `NomPaciente` varchar(50) DEFAULT NULL,
   `ApellPaciente` varchar(50) DEFAULT NULL,
   `IdSeguro` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `perfil`
+--
+
+CREATE TABLE `perfil` (
+  `IdPerfil` int(11) NOT NULL,
+  `Nombre` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -156,6 +166,21 @@ CREATE TABLE `tratamientoregistro` (
   `IdRegistro` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuario`
+--
+
+CREATE TABLE `usuario` (
+  `IdUsuario` int(11) NOT NULL,
+  `NomUsuario` varchar(30) DEFAULT NULL,
+  `Correo` varchar(50) DEFAULT NULL,
+  `Contra` varchar(350) DEFAULT NULL,
+  `IdPerfil` int(11) DEFAULT NULL,
+  `Token` varchar(30) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Índices para tablas volcadas
 --
@@ -185,6 +210,12 @@ ALTER TABLE `especialidad`
 ALTER TABLE `paciente`
   ADD PRIMARY KEY (`IdPaciente`),
   ADD KEY `IdSeguro` (`IdSeguro`);
+
+--
+-- Indices de la tabla `perfil`
+--
+ALTER TABLE `perfil`
+  ADD PRIMARY KEY (`IdPerfil`);
 
 --
 -- Indices de la tabla `registro`
@@ -232,6 +263,71 @@ ALTER TABLE `tratamientodoctor`
 ALTER TABLE `tratamientoregistro`
   ADD PRIMARY KEY (`IdTratamiento`,`IdRegistro`),
   ADD KEY `IdRegistro` (`IdRegistro`);
+
+--
+-- Indices de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  ADD PRIMARY KEY (`IdUsuario`),
+  ADD KEY `IdPerfil` (`IdPerfil`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `cama`
+--
+ALTER TABLE `cama`
+  MODIFY `IdCama` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `doctor`
+--
+ALTER TABLE `doctor`
+  MODIFY `IdDoctor` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `especialidad`
+--
+ALTER TABLE `especialidad`
+  MODIFY `IdEspecialidad` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `paciente`
+--
+ALTER TABLE `paciente`
+  MODIFY `IdPaciente` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `perfil`
+--
+ALTER TABLE `perfil`
+  MODIFY `IdPerfil` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `registro`
+--
+ALTER TABLE `registro`
+  MODIFY `IdRegistro` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `seguro`
+--
+ALTER TABLE `seguro`
+  MODIFY `IdSeguro` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tratamiento`
+--
+ALTER TABLE `tratamiento`
+  MODIFY `IdTratamiento` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  MODIFY `IdUsuario` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
@@ -282,6 +378,12 @@ ALTER TABLE `tratamientodoctor`
 ALTER TABLE `tratamientoregistro`
   ADD CONSTRAINT `tratamientoregistro_ibfk_1` FOREIGN KEY (`IdTratamiento`) REFERENCES `tratamiento` (`IdTratamiento`),
   ADD CONSTRAINT `tratamientoregistro_ibfk_2` FOREIGN KEY (`IdRegistro`) REFERENCES `registro` (`IdRegistro`);
+
+--
+-- Filtros para la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`IdPerfil`) REFERENCES `perfil` (`IdPerfil`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
