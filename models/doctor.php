@@ -3,10 +3,10 @@ include_once("./models/generic-model.php");
 
 class Doctor extends GenericModel {
   public function __construct(
-    int $idDoctor,
-    string $nomDoctor,
-    string $apellDoctor,
-    int $idEspecialidad
+    ?int $idDoctor = null,
+    ?string $nomDoctor = null,
+    ?string $apellDoctor = null,
+    ?int $idEspecialidad = null
   ) {
     parent::__construct("doctor");
     $this->idDoctor = $idDoctor;
@@ -16,7 +16,7 @@ class Doctor extends GenericModel {
   }
 
   function createDoctor() {
-    $query = "INSERT INTO $this->table(NomDoctor, ApellDoctor, IdEspecial)
+    $query = "INSERT INTO $this->table_name(NomDoctor, ApellDoctor, IdEspecial)
       VALUES ('$this->nomDoctor', '$this->apellDoctor', $this->idEspecialidad)";
     $res = $this->exec($query);
     return $res;
@@ -42,8 +42,10 @@ class Doctor extends GenericModel {
     $query = "SELECT * FROM $this->table_name";
     $res = $this->exec($query);
     if(mysqli_num_rows($res) != 0) {
-      $row = mysqli_fetch_array($res, MYSQLI_ASSOC);
-      return $row;
+      while($row = $res->fetch_array()) {
+        $rows[] = $row;
+      }
+      return $rows;
     }
     return "No se encontro ningún regitro";
   }
