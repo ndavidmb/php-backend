@@ -29,6 +29,9 @@ class UserController extends BaseController
       case 'PUT':
         $this->updateUser();
         break;
+      case 'GET':
+        $this->getAll();
+        break;
       default:
         response(['error' => 'Method not found'], 404);
         break;
@@ -85,6 +88,21 @@ class UserController extends BaseController
         'error' => False], 200
       );
     }
+  }
+
+  private function getAll() {
+    $user = new User();
+    $res = $user->readAllUser();
+    if(gettype($res) == 'string') {
+      response(['status' => $res, 'error' => False], 202);
+      exit();
+    }
+
+    response([
+      'data'=>mapped($res),
+      'status' => 'Ok',
+      'error'=> False,
+    ], 200);
   }
 
   private function login() {
