@@ -67,6 +67,26 @@ class User extends GenericModel {
     return $res;
   }
 
+  function readAllUser() {
+    $query = "SELECT * FROM $this->table_name";
+    $res = $this->exec($query);
+    if(mysqli_num_rows($res) != 0) {
+      //$row = mysqli_fetch_array($res, MYSQLI_ASSOC);
+      while($row = $res->fetch_array())
+        {
+            $rows[] = $row;
+        }
+      return $rows;
+    }
+   
+    return "No se encontro ningún regitro";
+  }
+
+  function deleteSpeciality() {
+    $query = "DELETE FROM $this->table_name WHERE IdUsuario=$this->idUsuario";
+    $res = $this->exec($query);
+    return $res;
+  }
 }
 
 ?>
