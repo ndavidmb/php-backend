@@ -4,7 +4,7 @@ include_once('./controllers/base-controller.php');
 
 class SpecialityController extends BaseController{
   public function __construct($method, $param) {
-    parent::__construct($method, $param);
+    parent::__construct($method, $param,requiereParam:['PUT', 'DELETE']);
   }
 
   public function init() {
@@ -46,10 +46,7 @@ class SpecialityController extends BaseController{
         response(['status'=> $result],200);
         exit();
     }
-    for($i=0;$i<count($result);$i++){
-        $ps[$i] = ['name'=>$result[$i]['Nombre'],'id'=>$result[$i]['IdEspecialidad']]; 
-    }
-    response(['data' => $ps,'status' => 'OK'],200);
+    response(['data' => mapped($result),'status' => 'OK', 'error' => False],200);
   }
 
   function changeSpeciality() {

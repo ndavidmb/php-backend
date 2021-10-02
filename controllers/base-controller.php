@@ -9,6 +9,7 @@ class BaseController {
   }
 
   private function requiereParam() {
+    if(isset($this->arrReq)){
     if(!in_array($this->method, $this->arrReq)) {
       return;
     }
@@ -21,5 +22,6 @@ class BaseController {
       exit();
     }
   }
+}
 }
 ?>
