@@ -124,19 +124,19 @@ class UserController extends BaseController
     echo $res;
   }
 
-  /*function dropUser() {
+  function dropUser() {
     $p= $this->param;
-    $user = new User(idUser:$p);
-    $resC = $user->select();
+    $user = new User(idUsuario:$p);
+    $resC = $user->selectUser();
     if(!isset($resC)){
-      response(['status' => 'Especialidad no existe','error' => True],400);
+      response(['status' => 'Usuario no existe','error' => True],400);
       exit();
     }
-    $res = $speciality->deleteSpeciality();
+    $res = $user->deleteUser();
     if($res==1){
-      response(['status' => 'La Especialidad Se Ha Eliminado','error' => False],200);
+      response(['status' => 'El Usuario Se Ha Eliminado','error' => False],200);
     }else{
       response(['status' => 'Error En Eliminar','error' => true], 400);
     }
-  }*/
+  }
 }
