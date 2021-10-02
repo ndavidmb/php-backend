@@ -59,24 +59,37 @@ class UserController extends BaseController
 
   private function updateUser() {
     [
-      'nomDoctor' => $nomDoctor,
-      'apellDoctor' => $apellDoctor,
-      'idEspecialidad' => $idEspecialidad,
+      'nomUsuario' => $nomUsuario,
+      'correo' => $correo,
+      'contra' => $contra,
     ] = request();
-    // $user = new User(
-    // );
-    // $res = $user->updateUser();
-    // if($res == 1) {
-    //   response([
-    //     'status' => 'Se ha actualizado correctamente el doctor',
-    //     'error' => False], 200
-    //   );
-    //   exit();
-    // }
-    // response([
-    //   'status' => 'No se ha podido actualizar correctamente el doctor', 
-    //   'error' => True
-    // ], 400);
+    $user = new User(
+      nomUsuario: $nomUsuario,
+      correo: $correo,
+      contra: $contra,
+      idUsuario: $this->param,
+    );
+    $userLogin = $user->login();
+    if(!isset($userLogin)) {
+      response([
+        'status' => 'Correo o contraseña invalida',
+        'error' => True
+      ], 202);
+      exit();
+    }
+
+    $res = $user->updateUser();
+    if($res == 1) {
+      response([
+        'status' => 'Se ha actualizado correctamente el doctor',
+        'error' => False], 200
+      );
+      exit();
+    }
+    response([
+      'status' => 'No se ha podido actualizar correctamente el doctor', 
+      'error' => True
+    ], 400);
   }
 
   private function login() {

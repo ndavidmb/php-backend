@@ -6,8 +6,8 @@ class User extends GenericModel {
 
   public function __construct(
     string $correo,
-    string $contra, 
-    ?string $nomUsuario = null, 
+    string $contra,
+    ?string $nomUsuario = null,
     ?int $idUsuario = null
   ) {
     parent::__construct("usuario");
@@ -17,7 +17,7 @@ class User extends GenericModel {
     $this->contra = $contra;
   }
 
-  //CRUD 
+  //CRUD
   function createUser() {
     $query = "INSERT INTO $this->table_name(correo,nomUsuario,contra)
     VALUES ('$this->correo','$this->nomUsuario','$this->contra')";
