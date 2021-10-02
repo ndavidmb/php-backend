@@ -84,12 +84,7 @@ class UserController extends BaseController
         'status' => 'Se ha actualizado correctamente el doctor',
         'error' => False], 200
       );
-      exit();
     }
-    response([
-      'status' => 'No se ha podido actualizar correctamente el doctor', 
-      'error' => True
-    ], 400);
   }
 
   private function login() {
