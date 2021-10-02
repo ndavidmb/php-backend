@@ -3,7 +3,7 @@
 class BaseController {
   
   //public function __construct(string $method, string $param, array $protected_routes = []) {
-  public function __construct($method, $param) {
+  public function __construct(string $method,?string $param=null) {
     $this->method = $method;
     $this->param = $param;
     //$this->protected_routes = $protected_routes;
