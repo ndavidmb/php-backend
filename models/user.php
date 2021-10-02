@@ -9,20 +9,22 @@ class User extends GenericModel
     ?string $correo = null,
     ?string $contra = null,
     ?string $nomUsuario = null,
-    ?int $idUsuario = null
+    ?int $idUsuario = null,
+    ?int $idPerfil = null
   ) {
     parent::__construct("usuario");
     $this->idUsuario = $idUsuario;
     $this->correo = $correo;
     $this->nomUsuario = $nomUsuario;
     $this->contra = $contra;
+    $this->idPerfil = $idPerfil;
   }
 
   //CRUD
   function createUser()
   {
-    $query = "INSERT INTO $this->table_name(correo,nomUsuario,contra)
-    VALUES ('$this->correo','$this->nomUsuario','$this->contra')";
+    $query = "INSERT INTO $this->table_name(correo,nomUsuario,contra, idPerfil)
+    VALUES ('$this->correo','$this->nomUsuario','$this->contra', $this->idPerfil)";
     $res = $this->exec($query);
     return $res;
   }
@@ -31,7 +33,8 @@ class User extends GenericModel
   {
     $query = "UPDATE $this->table_name
       SET NomUsuario='$this->nomUsuario',
-      SET correo='$this->correo'
+          Correo='$this->correo',
+          IdPerfil=$this->idPerfil
       WHERE IdUsuario = $this->idUsuario";
     $res = $this->exec($query);
     return $res;
@@ -39,7 +42,7 @@ class User extends GenericModel
 
   function login()
   {
-    $query = "SELECT * FROM $this->table_name
+    $query = "SELECT * FROM `$this->table_name`
               WHERE (correo='$this->correo' OR nomUsuario='$this->nomUsuario')
               AND contra='$this->contra'";
     $res = $this->exec($query);

@@ -11,7 +11,6 @@ function main() {
   $param=null;
   if(count($arr)>2){
     $param = $arr[2];
-    echo $param;
   }
   switch ($arr[1]) {
     case 'patient':
