@@ -178,7 +178,7 @@ CREATE TABLE `usuario` (
   `Correo` varchar(50) DEFAULT NULL,
   `Contra` varchar(350) DEFAULT NULL,
   `IdPerfil` int(11) DEFAULT NULL,
-  `Token` varchar(30) DEFAULT NULL
+  `Token` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
