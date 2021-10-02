@@ -23,7 +23,8 @@ function main() {
       $user_controller->init();
       break;
     case 'doctor':
-      //$doctor = new Doctor();
+      $doctor = new DoctorController($requestMethod, $arr[2]);
+      $doctor->init();
       break;
     case 'speciality':
       $speciality_controller = new SpecialityController($requestMethod, $param);

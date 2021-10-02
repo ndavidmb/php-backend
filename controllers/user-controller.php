@@ -2,9 +2,14 @@
 include_once('./models/user.php');
 include_once('./controllers/base-controller.php');
 
-class UserController extends BaseController{
+class UserController extends BaseController
+{
   public function __construct($method, $param) {
-    parent::__construct($method, $param);
+    parent::__construct(
+      method: $method,
+      param: $param,
+      requiereParam: ['PATCH', 'PUT', 'DELETE']
+    );
   }
 
   function init() {
@@ -13,44 +18,84 @@ class UserController extends BaseController{
         $this->createUser();
         break;
       case 'PATCH':
-        $this->login();
+        if($this->param == 'login') {
+          $this->login();
+        } elseif('changePassword') {
+          $this->changePassword();
+        } else {
+          response(['error' => 'Method not found'], 404);
+        }
         break;
       case 'PUT':
-        $this->changePassword();
+        $this->updateUser();
+        break;
+      default:
+        response(['error' => 'Method not found'], 404);
         break;
     }
   }
 
-  function createUser() {
+  private function createUser() {
     [
-      'password' => $password, 
-      'email' => $email, 
-      'username' => $username
+      'contra' => $contra,
+      'correo' => $correo,
+      'nomUsuario' => $nomUsuario
     ] = request();
 
-    $user = new User(correo: $email, nomUsuario: $username, contra: $password);
+    $user = new User(correo: $correo, nomUsuario: $nomUsuario, contra: $contra);
     $result = $user->createUser();
-    print_r($result);
-    exit();
+    if($result == 1) {
+      response([
+        'status' => 'Se ha creado correctamente el usuario',
+        'error' => False
+      ], 201);
+      exit();
+    }
+    response([
+      'status' => 'No se ha podido crear correctamente el usuario', 
+      'error' => True
+    ], 400);
   }
 
-  function login() {
+  private function updateUser() {
     [
-      'email'=> $email,
-      'password'=> $password
+      'nomDoctor' => $nomDoctor,
+      'apellDoctor' => $apellDoctor,
+      'idEspecialidad' => $idEspecialidad,
+    ] = request();
+    // $user = new User(
+    // );
+    // $res = $user->updateUser();
+    // if($res == 1) {
+    //   response([
+    //     'status' => 'Se ha actualizado correctamente el doctor',
+    //     'error' => False], 200
+    //   );
+    //   exit();
+    // }
+    // response([
+    //   'status' => 'No se ha podido actualizar correctamente el doctor', 
+    //   'error' => True
+    // ], 400);
+  }
+
+  private function login() {
+    [
+      'email' => $email,
+      'password' => $password
     ] = request();
     $user = new User(correo: $email, contra: $password);
     $result = $user->login();
-    if(isset($result)) {
+    if (isset($result)) {
       $user->nomUsuario = $result['IdUsuario'];
-      $token = base64_encode($user->correo) 
-        .base64_encode(' ') 
-        .base64_encode($user->contra)
-        .base64_encode(' ') 
-        .base64_encode(date("m/d/y"));
+      $token = base64_encode($user->correo)
+        . base64_encode(' ')
+        . base64_encode($user->contra)
+        . base64_encode(' ')
+        . base64_encode(date("m/d/y"));
       $user->token = $token;
       $tok = $user->generateToken($token);
-      if($tok == 1) {
+      if ($tok == 1) {
         response([
           'token' => $token,
           'status' => 'El usuario se ha loggeado'
@@ -61,16 +106,14 @@ class UserController extends BaseController{
     response(['status' => 'Correo o contraseña invalida'], 202);
   }
 
-  function changePassword() {
+  private function changePassword() {
     [
-      'email' => $email, 
+      'email' => $email,
       'newPassword' => $newPassword
     ] = request();
     $user = new User(correo: $email, contra: $newPassword);
-    $res = $user->findUserByEmail();
+    $res = $user->changePassword();
     echo $res;
   }
 
 }
-
-?>

@@ -1,22 +1,25 @@
 <?php
-//require_once('./models/user.php');
 class BaseController {
   
-  //public function __construct(string $method, string $param, array $protected_routes = []) {
-  public function __construct(string $method,?string $param=null) {
+  public function __construct($method, $param, ?array $requiereParam = null) {
     $this->method = $method;
     $this->param = $param;
-    //$this->protected_routes = $protected_routes;
-    //if(in_array($method, $protected_routes)) {
-      //$this->validateToken();
-    //}
+    $this->arrReq = $requiereParam;
+    $this->requiereParam();
   }
 
-  //private function validateToken() {
-    //['token' => $token] = request();
-    //$arr = explode('=', $token);
-    //print_r($arr);
-    //$user = new User();
-  //}
+  private function requiereParam() {
+    if(!in_array($this->method, $this->arrReq)) {
+      return;
+    }
+
+    if(!isset($this->param)) {
+      response([
+        'error' => True,
+        'status' => 'El parametro es requerido para el método '.$this->method
+      ], 400);
+      exit();
+    }
+  }
 }
 ?>

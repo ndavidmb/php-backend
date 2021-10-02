@@ -389,3 +389,12 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+INSERT INTO `doctor`(`NomDoctor`, `ApellDoctor`, `IdEspecialidad`) VALUES ('Juan','Díaz',1);
+INSERT INTO `doctor`(`NomDoctor`, `ApellDoctor`, `IdEspecialidad`) VALUES ('Felipe','Torres',1);
+INSERT INTO `doctor`(`NomDoctor`, `ApellDoctor`, `IdEspecialidad`) VALUES ('Enrique','Calderon',1);
+INSERT INTO `doctor`(`NomDoctor`, `ApellDoctor`, `IdEspecialidad`) VALUES ('Laura','Fernandez',1);
+INSERT INTO `doctor`(`NomDoctor`, `ApellDoctor`, `IdEspecialidad`) VALUES ('Luisa','Castellanos',1);
+INSERT INTO `doctor`(`NomDoctor`, `ApellDoctor`, `IdEspecialidad`) VALUES ('Ofelio','Restrepo',1);
+INSERT INTO `doctor`(`NomDoctor`, `ApellDoctor`, `IdEspecialidad`) VALUES ('Miller','Cardenales',1);
+INSERT INTO `doctor`(`NomDoctor`, `ApellDoctor`, `IdEspecialidad`) VALUES ('Esteban','Contreras',1);
