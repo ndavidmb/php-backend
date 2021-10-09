@@ -12,6 +12,13 @@ function main() {
   if(count($arr)>2){
     $param = $arr[2];
   }
+
+  if($requestMethod == 'OPTIONS') {
+    response(["Status" => "Ok"], 200);
+    exit();
+  }
+
+
   switch ($arr[1]) {
     case 'patient':
       $patient_controller = new PatientController($requestMethod, $param);
@@ -34,5 +41,3 @@ function main() {
       break;
   }
 }
-
-?>
