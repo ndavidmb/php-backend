@@ -32,7 +32,7 @@ function main() {
       $doctor = new DoctorController($requestMethod, $arr[2]);
       $doctor->init();
       break;
-    case 'speciality':
+    case 'specialty':
       $speciality_controller = new SpecialityController($requestMethod, $param);
       $speciality_controller->init();
       break;

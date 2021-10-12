@@ -12,6 +12,8 @@ class PatientController extends BaseController {
       case 'POST':
         $this->createPatient();
         break;
+      default:
+        response(['status' => 'Method not found'], 404);
     }
   }
 
@@ -28,5 +30,3 @@ class PatientController extends BaseController {
     }
   }
 }
-
-?>
