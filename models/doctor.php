@@ -1,7 +1,8 @@
 <?php
 include_once("./models/generic-model.php");
 
-class Doctor extends GenericModel {
+class Doctor extends GenericModel
+{
   public function __construct(
     ?int $idDoctor = null,
     ?string $nomDoctor = null,
@@ -15,14 +16,16 @@ class Doctor extends GenericModel {
     $this->idEspecialidad = $idEspecialidad;
   }
 
-  function createDoctor() {
+  function createDoctor()
+  {
     $query = "INSERT INTO $this->table_name(NomDoctor, ApellDoctor, IdEspecialidad)
       VALUES ('$this->nomDoctor', '$this->apellDoctor', $this->idEspecialidad)";
     $res = $this->exec($query);
     return $res;
   }
 
-  function updateDoctor() {
+  function updateDoctor()
+  {
     $query = "UPDATE `$this->table_name`
       SET `NomDoctor` = '$this->nomDoctor',
           `ApellDoctor` = '$this->apellDoctor',
@@ -32,17 +35,22 @@ class Doctor extends GenericModel {
     return $res;
   }
 
-  function deleteDoctor() {
+  function deleteDoctor()
+  {
     $query = "DELETE FROM $this->table_name WHERE IdDoctor=$this->idDoctor";
     $res = $this->exec($query);
     return $res;
   }
 
-  function readAllDoctors() {
-    $query = "SELECT * FROM $this->table_name";
+  function readAllDoctors()
+  {
+    $query = "SELECT d.IdDoctor, d.NomDoctor, d.ApellDoctor, e.IdEspecialidad, e.Nombre as NombreEspecialidad
+              FROM $this->table_name d
+              INNER JOIN especialidad e
+              ON d.IdEspecialidad = e.IdEspecialidad;";
     $res = $this->exec($query);
-    if(mysqli_num_rows($res) != 0) {
-      while($row = $res->fetch_array()) {
+    if (mysqli_num_rows($res) != 0) {
+      while ($row = $res->fetch_array()) {
         $rows[] = $row;
       }
       return $rows;
@@ -50,14 +58,14 @@ class Doctor extends GenericModel {
     return "No se encontro ningún regitro";
   }
 
-  function selectOne() {
+  function selectOne()
+  {
     $query = "SELECT * FROM $this->table_name WHERE IdDoctor=$this->idDoctor";
     $res = $this->exec($query);
-        if(mysqli_num_rows($res) != 0) {
+    if (mysqli_num_rows($res) != 0) {
       $row = mysqli_fetch_array($res, MYSQLI_ASSOC);
       return $row;
     }
     return null;
   }
 }
-?>

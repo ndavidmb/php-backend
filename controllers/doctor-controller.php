@@ -89,9 +89,9 @@ class DoctorController extends BaseController {
     $res = $doctor->readAllDoctors();
     if(gettype($res) == 'string') {
       response([
-        'data' => 'No se ha registrado ningún doctor',
-        'error' => False
-      ], 200);
+        'status' => 'No se ha registrado ningún doctor',
+        'error' => True
+      ], 202);
       exit();
     }
 
@@ -116,7 +116,6 @@ class DoctorController extends BaseController {
     echo $res;
     response(["error" => False, "status" => "Se ha eliminado correctamente el doctor"], 200);
   }
-
 
 }
 ?>
