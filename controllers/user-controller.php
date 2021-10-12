@@ -144,7 +144,7 @@ class UserController extends BaseController
       }
       exit();
     }
-    response(['status' => 'Correo o contraseña invalida'], 202);
+    response(['status' => 'Correo o contraseña invalida'], 400);
   }
 
   private function changePassword()
