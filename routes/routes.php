@@ -36,8 +36,29 @@ function main() {
       $speciality_controller = new SpecialityController($requestMethod, $param);
       $speciality_controller->init();
       break;
+    case 'treatment':
+      $treatment_controller = new TreatmentController($requestMethod, $param);
+      $treatment_controller->init();
+      break;
+    case 'insurance':
+      $insurance_controller = new InsuranceController($requestMethod, $param);
+      $insurance_controller->init();
+      break;
+    case 'bed':
+      $bed_controller = new BedController($requestMethod, $param);
+      $bed_controller->init();
+        break;
+    case 'profile':
+      $profile_controller = new ProfileController($requestMethod, $param);
+      $profile_controller->init();
+        break;
+    case 'phonedoctor':
+        $phonedoctor_controller = new PhoneDoctorController($requestMethod, $param);
+        $phonedoctor_controller->init();
+          break;
     default:
       response(['error' => 'Method not found'], 404);
       break;
+    
   }
 }

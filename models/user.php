@@ -79,7 +79,10 @@ class User extends GenericModel
 
   function readAllUser()
   {
-    $query = "SELECT * FROM $this->table_name";
+    $query = "SELECT u.NomUsuario, u.Correo, p.Nombre as Perfil
+    FROM $this->table_name u
+    INNER JOIN perfil p
+    ON p.IdPerfil = u.IdPerfil;";
     $res = $this->exec($query);
     if (mysqli_num_rows($res) != 0) {
       while ($row = $res->fetch_array()) {

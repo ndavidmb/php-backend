@@ -1,8 +1,8 @@
 <?php
-include_once('./models/speciality.php');
+include_once('./models/phonedoctor.php');
 include_once('./controllers/base-controller.php');
 
-class SpecialityController extends BaseController
+class PhoneDoctorController extends BaseController
 {
   public function __construct($method, $param)
   {
@@ -13,16 +13,16 @@ class SpecialityController extends BaseController
   {
     switch ($this->method) {
       case 'POST':
-        $this->createSpeciality();
+        $this->createPhoneD();
         break;
       case 'GET':
-        $this->getSpeciality();
+        $this->getPhoneD();
         break;
       case 'PUT':
-        $this->changeSpeciality();
+        $this->changePhoneD();
         break;
       case 'DELETE':
-        $this->dropSpeciality();
+        $this->dropPhoneD();
         break;
       default:
         response(['error' => 'Method not found'], 404);
@@ -30,26 +30,30 @@ class SpecialityController extends BaseController
     }
   }
 
-  function createSpeciality()
+  function createPhoneD()
   {
     [
-      'nomEspecialidad' => $nombre
+      'idDoctor' => $id,
+      'telDoctor' => $tel
     ] = request();
 
-    $speciality = new Speciality(nomEspecialidad: $nombre);
-    $result = $speciality->createSpeciality();
+    $PhoneD = new PhoneDoctor(
+        idDoctor: $id,
+        telDoctor: $tel
+    );
+    $result = $PhoneD->createPhoneDoctor();
     if ($result == 1) {
-      response(['status' => 'La Especialidad Se Ha Creado', 'error' => False], 200);
+      response(['status' => 'El Telefono Se Ha Creado', 'error' => False], 200);
     } else {
       response(['status' => 'Error Al Crear', 'error' => true], 400);
     }
     exit();
   }
 
-  function getSpeciality()
+  function getPhoneD()
   {
-    $speciality = new Speciality();
-    $result = $speciality->readAllSpeciality();
+    $PhoneD = new PhoneDoctor();
+    $result = $PhoneD->readAllPhoneDoctors();
     if (gettype($result) == 'string') {
       response(['status' => $result], 200);
       exit();
@@ -57,34 +61,36 @@ class SpecialityController extends BaseController
     response(['data' => mapped($result), 'status' => 'OK', 'error' => False], 200);
   }
 
-  function changeSpeciality()
+  function changePhoneD()
   {
     $p = $this->param;
-    ['nomSpeciality' => $nombre] = request();
-    $speciality = new Speciality(idEspecialidad: $p, nomEspecialidad: $nombre);
-    $resC = $speciality->selectSpeciality();
+    [
+        'telDoctor' => $tel
+    ] = request();
+    $PhoneD = new PhoneDoctor(idDoctor: $p, telDoctor: $tel);
+    $resC = $PhoneD->selectOne();
     if (!isset($resC)) {
-      response(['status' => 'Especialidad no existe', 'error' => True], 400);
+      response(['status' => 'El Telefono no existe', 'error' => True], 400);
       exit();
     }
-    $res = $speciality->updateSpeciality();
+    $res = $PhoneD->updatePhoneDoctor();
     if ($res == 1) {
-      response(['status' => 'La Especialidad Se Ha Actualizado', 'error' => False], 200);
+      response(['status' => 'El telefono Se Ha Actualizado', 'error' => False], 200);
     } else {
       response(['status' => 'Error En Actualizacion', 'error' => true], 400);
     }
   }
 
-  function dropSpeciality()
+  function dropPhoneD()
   {
     $p = $this->param;
-    $speciality = new Speciality(idEspecialidad: $p);
-    $resC = $speciality->selectSpeciality();
+    $PhoneD = new PhoneDoctor(idDoctor: $p);
+    $resC = $PhoneD->selectOne();
     if (!isset($resC)) {
       response(['status' => 'Especialidad no existe', 'error' => True], 400);
       exit();
     }
-    $res = $speciality->deleteSpeciality();
+    $res = $PhoneD->deletePhoneDoctor();
     if ($res == 1) {
       response(['status' => 'La Especialidad Se Ha Eliminado', 'error' => False], 200);
     } else {

@@ -45,7 +45,10 @@ class Patient extends GenericModel
 
   function readAllPatients()
   {
-    $query = "SELECT * FROM $this->table_name";
+    $query = "SELECT p.IdPaciente, p.NomPaciente, p.ApellPaciente, s.IdSeguro, s.Nombre as Seguro
+    FROM $this->table_name p
+    INNER JOIN seguro s
+    ON p.IdSeguro = s.IdSeguro;";
     $res = $this->exec($query);
     if (mysqli_num_rows($res) != 0) {
       while ($row = $res->fetch_array()) {
