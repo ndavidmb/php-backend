@@ -1,5 +1,6 @@
 <?php
 include('./models/patient.php');
+include('./models/user.php');
 include_once('./controllers/base-controller.php');
 
 class PatientController extends BaseController
@@ -53,6 +54,27 @@ class PatientController extends BaseController
         'status' => 'Se ha creado correctamente el paciente',
         'error' => False
       ], 201);
+      
+    }
+    [
+      'nomUsuario' => $nomUsuario,
+      'correo' => $correo,
+      'contra' => $contra, 
+      'idPerfil' => $idPerfil
+    ] = request();
+
+    $user = new User(
+      nomUsuario: $nomUsuario,
+      correo: $correo,
+      contra: $contra, 
+      idPerfil: $idPerfil
+    );
+    $res = $user->createUser();
+    if ($res == 1) {
+      response([
+        'status' => 'Se ha creado correctamente el Usuario',
+        'error' => False
+      ], 201);
       exit();
     }
     response([
@@ -64,6 +86,20 @@ class PatientController extends BaseController
 
   private function updatePatient()
   {
+    [
+      'nomPaciente' => $nomPaciente,
+      'apellPaciente' => $apellPaciente,
+      'idSeguro' => $idSeguro
+    ] = request();
+
+
+    $patient = new Patient(
+      idPaciente: $this->param,
+      nomPaciente: $nomPaciente,
+      apellPaciente: $apellPaciente,
+      idSeguro: $idSeguro
+    );
+    $res = $patient->updatePatient();
     [
       'nomPaciente' => $nomPaciente,
       'apellPaciente' => $apellPaciente,
